@@ -1,0 +1,3 @@
+2more games
+poker for ten deals - the biggest dollar wins
+poker with unflexible bet, without extra games - the bigest score wins (needs a little work with balance)
