@@ -263,3 +263,4 @@ else:
         leaderboard_file = open(r"D:\Max\it\Python\my_apps\video_poker\leaderboard.txt", "w")
         with leaderboard_file:
             leaderboard_file.writelines(leaderboard_actual)
+
