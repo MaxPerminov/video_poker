@@ -125,76 +125,75 @@ def extra_cards(e):
         return 13
 
 
-def double(c):
-    if extra_cards(c1[0]) > extra_cards(c2[0]):
-        c *= 2
-        return c
-    elif extra_cards(c1[0]) == extra_cards(c2[0]):
-        return c
+def double(card1, card2, cred):
+    if card1 > card2:
+        cred *= 2
+        return cred
+    elif card1 == card2:
+        return cred
     else:
-        c *= 0
-        return c
+        cred *= 0
+        return cred
 
 
-cards = ["2\u2660", "3\u2660", "4\u2660", "5\u2660", "6\u2660", "7\u2660", "8\u2660", "9\u2660", "10\u2660", "J\u2660",
-         "Q\u2660", "K\u2660", "A\u2660",
-         "2\u2661", "3\u2661", "4\u2661", "5\u2661", "6\u2661", "7\u2661", "8\u2661", "9\u2661", "10\u2661", "J\u2661",
-         "Q\u2661", "K\u2661", "A\u2661",
-         "2\u2662", "3\u2662", "4\u2662", "5\u2662", "6\u2662", "7\u2662", "8\u2662", "9\u2662", "10\u2662", "J\u2662",
-         "Q\u2662", "K\u2662", "A\u2662",
-         "2\u2663", "3\u2663", "4\u2663", "5\u2663", "6\u2663", "7\u2663", "8\u2663", "9\u2663", "10\u2663", "J\u2663",
-         "Q\u2663", "K\u2663", "A\u2663"]
-random.shuffle(cards)
+def deck():
+    cards_deck = ["2\u2660", "3\u2660", "4\u2660", "5\u2660", "6\u2660", "7\u2660", "8\u2660", "9\u2660", "10\u2660",
+                  "J\u2660", "Q\u2660", "K\u2660", "A\u2660",
+                  "2\u2661", "3\u2661", "4\u2661", "5\u2661", "6\u2661", "7\u2661", "8\u2661", "9\u2661", "10\u2661",
+                  "J\u2661", "Q\u2661", "K\u2661", "A\u2661",
+                  "2\u2662", "3\u2662", "4\u2662", "5\u2662", "6\u2662", "7\u2662", "8\u2662", "9\u2662", "10\u2662",
+                  "J\u2662", "Q\u2662", "K\u2662", "A\u2662",
+                  "2\u2663", "3\u2663", "4\u2663", "5\u2663", "6\u2663", "7\u2663", "8\u2663", "9\u2663", "10\u2663",
+                  "J\u2663", "Q\u2663", "K\u2663", "A\u2663"]
+    random.shuffle(cards_deck)
+    return [i1 for i1 in cards_deck]
+
+
 score = 0
 dollars = 2000
 print("\n You have 2000$")
 while 0 < dollars < 1000000:
     score += 1
-    cards_game = cards.copy()
     bet = int(input(f"\nThe {score} deal. Your bet: "))
     if dollars > bet != 0:
         dollars -= bet
     else:
         bet = dollars
         dollars = 0
+    cards = deck()
     deal = []
-    for i1 in range(5):
+    for i2 in range(5):
         deal.append(cards.pop())
     print("\n" + " ".join(deal))
     game = input("Throw all away - 0\nDiscard some - 3\nHold - Enter\nYour choice: ")
     if game == "3":
-        for i2 in range(5):
-            if input(deal[i2] + "  Hold - Enter, Throw away - 3  ") == "3":
-                deal.pop(i2)
-                deal.insert(i2, cards.pop())
+        for i3 in range(5):
+            if input(deal[i3] + "  Hold - Enter, Throw away - 3  ") == "3":
+                deal.pop(i3)
+                deal.insert(i3, cards.pop())
     elif game == "0":
         deal.clear()
-        for i3 in range(5):
+        for i4 in range(5):
             deal.append(cards.pop())
     hand, credit = win(" ".join(deal), bet)
     print(" ".join(deal), "----", hand, "%d$ won" % credit)
-    cards = cards_game
-    random.shuffle(cards)
     if credit > 0:
         if input("Extra game - 3, new deal - Enter  ") == "3":
+            cards = deck()
             c1 = []
             c2 = []
             c1.append(cards.pop())
-            print(c1[0], "vs. ?")
+            print(c1[-1], "vs. ?")
             while input("Double - 3, take money - Enter  ") == "3":
                 c2.append(cards.pop())
-                credit = double(credit)
-                print(c1[0], "vs.", c2[0], "---- %d$" % credit)
-                cards.append(c1.pop())
-                cards.append(c2.pop())
-                random.shuffle(cards)
+                credit = double(extra_cards(c1[-1]), extra_cards(c2[-1]), credit)
+                print(c1[-1], "vs.", c2[-1], "---- %d$" % credit)
                 if credit > 0:
+                    cards = deck()
                     c1.append(cards.pop())
-                    print(c1[0], "vs. ?")
+                    print(c1[-1], "vs. ?")
                 else:
                     break
-            else:
-                cards.append(c1.pop())
     dollars += credit
     print("\n You have %d$" % dollars)
 else:
@@ -216,50 +215,50 @@ else:
                 leaders_list.append(leader_line)
                 leader_line = leaderboard_file.readline()[len(str(digits)):]
         leaders_dict1 = []
-        for i4 in leaders_list:
-            leaders_dict1.append(i4.replace('. ', '{".": "'))
+        for i5 in leaders_list:
+            leaders_dict1.append(i5.replace('. ', '{".": "'))
         leaders_dict2 = []
-        for i5 in leaders_dict1:
-            leaders_dict2.append(i5.replace(" --- score", '", "score":'))
+        for i6 in leaders_dict1:
+            leaders_dict2.append(i6.replace(" --- score", '", "score":'))
         leaders_dict3 = []
-        for i6 in leaders_dict2:
-            leaders_dict3.append(i6.replace(" --- dollars", ', "dollars":'))
+        for i7 in leaders_dict2:
+            leaders_dict3.append(i7.replace(" --- dollars", ', "dollars":'))
         leaders_dict4 = []
-        for i7 in leaders_dict3:
-            leaders_dict4.append(i7.replace("$ --- ", ', "-": "'))
+        for i8 in leaders_dict3:
+            leaders_dict4.append(i8.replace("$ --- ", ', "-": "'))
         leaders_dict5 = []
-        for i8 in leaders_dict4:
-            leaders_dict5.append(i8.replace("\n", '"}'))
+        for i9 in leaders_dict4:
+            leaders_dict5.append(i9.replace("\n", '"}'))
         leaders_dict = []
-        for i9 in leaders_dict5:
-            leaders_dict.append(eval(i9))
+        for i10 in leaders_dict5:
+            leaders_dict.append(eval(i10))
         leaders_dict.sort(key=lambda x: x["-"])
         leaders_dict.sort(key=lambda x: x["dollars"], reverse=True)
         leaders_dict.sort(key=lambda x: x["score"])
         leaders_str1 = []
-        for i10 in leaders_dict:
-            leaders_str1.append(str(i10).replace("'}", "\n"))
+        for i11 in leaders_dict:
+            leaders_str1.append(str(i11).replace("'}", "\n"))
         leaders_str2 = []
-        for i11 in leaders_str1:
-            leaders_str2.append(i11.replace("{'.': '", ". "))
+        for i12 in leaders_str1:
+            leaders_str2.append(i12.replace("{'.': '", ". "))
         leaders_str3 = []
-        for i12 in leaders_str2:
-            leaders_str3.append(i12.replace("', 'score': ", " --- score "))
+        for i13 in leaders_str2:
+            leaders_str3.append(i13.replace("', 'score': ", " --- score "))
         leaders_str4 = []
-        for i13 in leaders_str3:
-            leaders_str4.append(i13.replace(", 'dollars': ", " --- dollars "))
+        for i14 in leaders_str3:
+            leaders_str4.append(i14.replace(", 'dollars': ", " --- dollars "))
         leaders_str5 = []
-        for i14 in leaders_str4:
-            leaders_str5.append(i14.replace(", '-': '", "$ --- "))
+        for i15 in leaders_str4:
+            leaders_str5.append(i15.replace(", '-': '", "$ --- "))
         leaders_numbered = []
         num = 0
-        for i15 in leaders_str5:
-            leaders_numbered.append(list(i15))
+        for i16 in leaders_str5:
+            leaders_numbered.append(list(i16))
             leaders_numbered[num].insert(0, str(num + 1))
             num += 1
         leaderboard_actual = []
-        for i16 in leaders_numbered:
-            leaderboard_actual.append("".join(i16))
+        for i17 in leaders_numbered:
+            leaderboard_actual.append("".join(i17))
         print("\n         LEADERBOARD\n\n" + "".join(leaderboard_actual))
         leaderboard_file = open(r"D:\Max\it\Python\my_apps\video_poker\leaderboard.txt", "w")
         with leaderboard_file:

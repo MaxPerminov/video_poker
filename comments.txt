@@ -150,7 +150,7 @@ dollars = 2000
 print("\n You have 2000$")
 while 0 < dollars < 1000000:
     score += 1
-    cards_game = cards.copy()
+    cards_game = cards.copy()################################################# copy() - to save 52 cards in future games 
     bet = int(input(f"\nThe {score} deal. Your bet: "))
     if dollars > bet != 0:
         dollars -= bet
@@ -195,14 +195,14 @@ while 0 < dollars < 1000000:
                     break
             else:
                 cards.append(c1.pop())
+    print("\n You have %d$" % credit)
     dollars += credit
-    print("\n You have %d$" % dollars)
 else:
     if dollars == 0:
         print("\n\n            GAME OVER")
     else:
         print(f"Congratulations! You have reached one million on the {score} deal.")
-        name = input("Enter your name: ")
+        name = input("Enter your name: ")        
         while not name.isalnum() or len(name) > 6:
             name = input("Name can contain letters or numbers and must be less than 7 characters.\nEnter your name: ")
         leaders_list = [f". {name} --- score {score} --- dollars {dollars}$ --- "
@@ -252,11 +252,11 @@ else:
         for i14 in leaders_str4:
             leaders_str5.append(i14.replace(", '-': '", "$ --- "))
         leaders_numbered = []
-        num = 0
+        num1 = 0
         for i15 in leaders_str5:
             leaders_numbered.append(list(i15))
-            leaders_numbered[num].insert(0, str(num + 1))
-            num += 1
+            leaders_numbered[num1].insert(0, str(num1 + 1))
+            num1 += 1
         leaderboard_actual = []
         for i16 in leaders_numbered:
             leaderboard_actual.append("".join(i16))
@@ -264,3 +264,4 @@ else:
         leaderboard_file = open(r"D:\Max\it\Python\my_apps\video_poker\leaderboard.txt", "w")
         with leaderboard_file:
             leaderboard_file.writelines(leaderboard_actual)
+
